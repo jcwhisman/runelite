@@ -1,5 +1,6 @@
 package net.runelite.client.plugins.infernosplittimer;
 
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
@@ -12,7 +13,6 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.info.InfoPanel;
 import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.ui.overlay.infobox.InfoBox;
@@ -43,6 +43,9 @@ public class InfernoSplitTimerPlugin extends Plugin
     private static final Pattern WAVE_MESSAGE = Pattern.compile("Wave: (\\d+)");
     private static final String TIMER_CLASS = "net.runelite.client.plugins.timers.ElapsedTimer";
     private static final List<Integer> SPLIT_WAVES = new ArrayList<Integer>() {{
+        add(2);
+        add(3);
+        add(4);
         add(9);
         add(18);
         add(25);
@@ -73,15 +76,15 @@ public class InfernoSplitTimerPlugin extends Plugin
     @Inject
     private ClientToolbar clientToolbar;
 
+    @Setter
     private NavigationButton navButton;
+    private InfernoSplitTimerPanel panel;
 
     @Override
     protected void startUp() throws Exception
     {
-        //instantiate panel from the plugin panel class
-        final InfernoSplitTimerPanel panel = injector.getInstance(InfernoSplitTimerPanel.class);
-
-        //execute the init method on the INfernoSplitTimerPanel class
+        //Instantiate plugin
+        panel = injector.getInstance(InfernoSplitTimerPanel.class);
         panel.init();
 
         //generate icon from the resources/plugins/infernosplittimer folder
@@ -108,7 +111,6 @@ public class InfernoSplitTimerPlugin extends Plugin
 
     @Subscribe
     public void onChatMessage(ChatMessage event) {
-
         if (event.getType() != ChatMessageType.GAMEMESSAGE) {
             return;
         }
@@ -132,6 +134,8 @@ public class InfernoSplitTimerPlugin extends Plugin
 
                         sendChatMessage(chatMessage);
                         log.debug(chatMessage);
+
+                        panel.refresh(wave, elapsedTime);
                     }
                 }
             }
