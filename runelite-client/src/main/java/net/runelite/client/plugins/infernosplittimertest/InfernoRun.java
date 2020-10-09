@@ -66,8 +66,16 @@ public class InfernoRun {
 
     private String calcTimeDifference(String currentTime, String previousTime)
     {
-        Duration dPrevTime = Duration.between(LocalTime.MIN, LocalTime.parse(previousTime));
-        Duration dCurrentTime = Duration.between(LocalTime.MIN, LocalTime.parse(currentTime));
+        String[] splitPrev = previousTime.split(":");
+        long prevMinutes = new Long(splitPrev[0]);
+        long prevSeconds = new Long(splitPrev[1]);
+
+        String[] splitCurr = currentTime.split(":");
+        long currMinutes = new Long(splitCurr[0]);
+        long currSeconds = new Long(splitCurr[1]);
+
+        Duration dPrevTime = Duration.between(LocalTime.MIN, LocalTime.MIN.plusMinutes(prevMinutes).plusSeconds(prevSeconds));
+        Duration dCurrentTime = Duration.between(LocalTime.MIN, LocalTime.MIN.plusMinutes(currMinutes).plusSeconds(currSeconds));
         Duration dTimeDiff = dCurrentTime.minus(dPrevTime);
 
         long seconds = dTimeDiff.getSeconds();

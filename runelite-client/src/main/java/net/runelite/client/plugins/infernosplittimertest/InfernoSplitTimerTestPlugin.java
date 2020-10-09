@@ -32,7 +32,7 @@ import static net.runelite.api.ItemID.INFERNAL_CAPE;
 
 @Slf4j
 @PluginDescriptor(
-        name = "Test Plugin",
+        name = "C - Inferno Split Timer",
         description = "Displays inferno wave split times in chatbox",
         enabledByDefault = true,
         tags={"inferno","timer","split"}

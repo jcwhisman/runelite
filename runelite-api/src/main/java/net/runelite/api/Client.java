@@ -43,7 +43,7 @@ import net.runelite.api.widgets.WidgetConfig;
 import net.runelite.api.widgets.WidgetInfo;
 
 /**
- * Represents the RuneScape client.
+ * Represents the RuneScape client.Me
  */
 public interface Client extends GameEngine
 {
